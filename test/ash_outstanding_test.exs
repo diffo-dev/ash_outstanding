@@ -51,8 +51,6 @@ defmodule AshOutstanding.Test do
     end
   end
 
-
-
   describe "customize" do
     defresource WithCustomize do
       outstanding do
