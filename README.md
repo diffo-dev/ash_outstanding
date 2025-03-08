@@ -97,9 +97,41 @@ expected --- actual
 nil
 ```
 
-Outstanding supports expected functions. Arity/1 and arity/2 expected functions use actual as a parameter. Arity/2 expected functions take an argument list, and this can be a list of 'prototype' expected resources used in an Outstand or your own expected function.
+Outstanding supports expected functions. Arity 1 and 2 expected functions use actual as a parameter. Arity 2 expected functions take an argument list, and this can be a list of 'prototype' expected resources used in an Outstand or your own expected function.
 
 You may need to ensure your expected/actual Ash Resources are appropriately loaded, depending on what key/values you expect.
+
+## Customize
+
+A dsl option is provided which will insert a custom arity 3 function into the outstanding pipeline.
+
+Below customize is used to ensure that outstanding is enriched with expected.id
+
+```elixir
+defmodule Specification.Resource do
+  use Ash.Resource,
+    extensions: [AshOutstanding.Resource]
+
+  outstanding do
+    expect [:name, :major_version, :version]
+    customize fn outstanding, expected, _actual ->
+      case outstanding do
+        nil ->
+          outstanding
+        %_{} ->
+          outstanding
+          |> Map.put(:id, expected.id)
+      end
+    end
+  end
+end
+```
+
+## Acknowledgements
+
+Thanks to [Dmitry Maganov](https://github.com/vonagam) for [ash_jason](https://github.com/vonagam/ash_jason) which was an exemplar.
+
+Kudos to the [Ash Core](https://github.com/ash-project) for [ash] https://github.com/ash-project/ash 🚀
 
 ## Links
 
