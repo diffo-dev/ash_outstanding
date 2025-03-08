@@ -32,38 +32,74 @@ defmodule AshOutstanding.Test do
   @expected_id "e3130919-6fef-4a5f-a46e-62522f0d424b"
   @actual_id "a7e8e60e-54f5-4009-b53d-c0bd2795c81c"
 
-  describe "specification resource" do
-    defresource Specification do
+  describe "expect" do
+    defresource ExpectOnly do
       outstanding do
-        expect [:name, :major_version, :version]
-        #include [:id]
+        expect [:name]
       end
     end
 
     test "name" do
-      expected = %Specification{id: @expected_id, name: "access"}
-      actual_access =  %Specification{id: @actual_id, name: "access"}
-      actual_transport =  %Specification{id: @actual_id, name: "transport_"}
-      IO.inspect(outstanding(expected, nil), label: "test name outstanding")
+      expected = %ExpectOnly{name: "access"}
+      actual_realizing = %ExpectOnly{name: "access"}
+      actual_outstanding = %ExpectOnly{name: "transport"}
+      refute outstanding?(expected, actual_realizing)
       assert outstanding?(expected, nil)
-      assert nil_outstanding?(expected, actual_access)
-      assert expected >>> actual_transport
-      IO.inspect(expected --- actual_transport, label: "test name outstanding")
+      assert expected >>> actual_outstanding
+      assert outstanding(expected, nil) == expected
+      assert expected --- actual_outstanding == expected
+    end
+  end
+
+
+
+  describe "customize" do
+    defresource WithCustomize do
+      outstanding do
+        expect [:name, :major_version, :version]
+        customize fn outstanding, expected, _actual ->
+          case outstanding do
+            nil ->
+              outstanding
+            %_{} ->
+              outstanding
+              |> Map.put(:id, expected.id)
+          end
+        end
+      end
+    end
+
+    test "name" do
+      expected = %WithCustomize{id: @expected_id, name: "access"}
+      actual_realizing = %WithCustomize{id: @actual_id, name: "access"}
+      actual_outstanding = %WithCustomize{id: @actual_id, name: "transport"}
+      refute outstanding?(expected, actual_realizing)
+      assert outstanding?(expected, nil)
+      assert expected >>> actual_outstanding
+      assert outstanding(expected, nil) == expected
+      assert expected --- actual_outstanding == expected
     end
 
     test "name and major version" do
-      assert outstanding?(%Specification{id: @expected_id, name: "access", major_version: 1}, nil)
-      assert nil_outstanding?(%Specification{id: @expected_id, name: "access", major_version: 1}, %Specification{id: @actual_id, name: "access", major_version: 1})
-      assert %Specification{id: @expected_id, name: "access", major_version: 1} >>> %Specification{id: @actual_id, name: "access", major_version: 2}
-      IO.inspect(%Specification{id: @expected_id, name: "access", major_version: 1} --- %Specification{id: @actual_id, name: "access", major_version: 2}, label: "test name and version outstanding")
+      expected = %WithCustomize{id: @expected_id, name: "access", major_version: 1}
+      actual_realizing = %WithCustomize{id: @actual_id, name: "access", major_version: 1}
+      actual_outstanding = %WithCustomize{id: @actual_id, name: "transport", major_version: 2}
+      refute outstanding?(expected, actual_realizing)
+      assert outstanding(expected, nil)
+      assert expected >>> actual_outstanding
+      assert outstanding(expected, actual_outstanding) == expected
+      assert expected --- actual_outstanding == expected
     end
 
     test "name and version regex" do
-      #assert outstanding(%Specification{id: @expected_id, name: "access", version: ~r/v1.1/}, %Specification{id: @actual_id, name: "access", version: "v1.2.0"} == %Specification{id: @expected_id, version: ~r/v1.1/})
-      assert outstanding?(%Specification{id: @expected_id, version: ~r/v1.1/}, nil)
-      assert nil_outstanding?(%Specification{id: @expected_id, version: ~r/v1.1/}, %Specification{id: @actual_id, version: "v1.1.17"})
-      assert %Specification{id: @expected_id, version: ~r/v1.1/} >>> %Specification{id: @actual_id, version: "v1.2.0"}
-      IO.inspect(%Specification{id: @expected_id, version: ~r/v1.1/} --- %Specification{id: @actual_id, version: "v1.2.0"}, label: "test name and version regex outstanding")
+      expected = %WithCustomize{id: @expected_id, name: "access", version: ~r/v1.1/}
+      actual_realizing = %WithCustomize{id: @actual_id, name: "access", version: "v1.1.17"}
+      actual_outstanding = %WithCustomize{id: @actual_id, name: "access", version: "v1.2.0"}
+      refute outstanding?(expected, actual_realizing)
+      assert outstanding?(expected, nil)
+      assert expected >>> actual_outstanding
+      assert outstanding(expected, actual_outstanding) == %WithCustomize{id: @expected_id, version: ~r/v1.1/}
+      assert expected --- actual_outstanding == %WithCustomize{id: @expected_id, version: ~r/v1.1/}
     end
   end
 end

@@ -3,6 +3,26 @@ defmodule AshOutstanding.Resource do
   Ash resource extension for implementing `Outstanding` protocol.
   """
 
+  @customize %Spark.Dsl.Entity{
+    name: :customize,
+    describe: """
+      A step to arbitrary customize outstanding
+    """,
+    target: AshOutstanding.Transformer.Step,
+    auto_set_fields: [type: :customize],
+    args: [:fun],
+    schema: [
+      fun: [
+        doc: """
+          A function to customize a result with. Receives a result and a resource record.
+        """,
+        type: {:fun, [:any, :any, :any], :any},
+        as: :input,
+        required: true,
+      ],
+    ],
+  }
+
   @outstanding %Spark.Dsl.Section{
     name: :outstanding,
     describe: """
@@ -16,6 +36,9 @@ defmodule AshOutstanding.Resource do
         type:
          {:or, [:atom, {:list, :atom}]},
       ],
+    ],
+    entities: [
+      @customize,
     ],
   }
 
