@@ -4,7 +4,7 @@ defmodule AshOutstanding.MixProject do
   @name :ash_outstanding
   @version "0.1.0"
   @description "Ash resource extension for implementing Outstanding protocol"
-  @github_url "https://github.com/matt-beanland/ash_outstanding"
+  @github_url "https://github.com/diffo-dev/ash_outstanding"
 
   def project() do
     [
@@ -36,7 +36,7 @@ defmodule AshOutstanding.MixProject do
 
   defp deps() do
     [
-      {:outstanding, git: "https://github.com/matt-beanland/outstanding/", branch: "4-structs-shouldnt-implement-outstanding-by-default"},
+      {:outstanding, git: "https://github.com/diffo-dev/outstanding/", branch: "4-structs-shouldnt-implement-outstanding-by-default"},
       {:ash, "~> 3.0"},
       {:spark, ">= 2.1.21 and < 3.0.0"},
       {:igniter, "~> 0.5", only: [:dev, :test], runtime: false},

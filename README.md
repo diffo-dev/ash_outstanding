@@ -2,7 +2,7 @@
 
 [![Module Version](https://img.shields.io/hexpm/v/ash_outstanding)](https://hex.pm/packages/ash_outstanding)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen)](https://hexdocs.pm/ash_outstanding/)
-[![License](https://img.shields.io/hexpm/l/ash_outstanding)](https://github.com/matt-beanland/ash_outstanding/blob/master/LICENSE.md)
+[![License](https://img.shields.io/hexpm/l/ash_outstanding)](https://github.com/diffo-dev/ash_outstanding/blob/master/LICENSE.md)
 
 Ash resource extension for implementing `Outstanding` protocol, which by default is deliberately not implemented for custom structs.
 
@@ -134,5 +134,5 @@ Thanks to [Dmitry Maganov](https://github.com/vonagam) for [ash_jason](https://g
 Kudos to the [Ash Core](https://github.com/ash-project) for [ash] https://github.com/ash-project/ash 🚀
 
 ## Links
-
+[Diffo.dev] (https://www.diffo.dev))
 [`Outstanding` docs](https://hexdocs.pm/outstanding).
