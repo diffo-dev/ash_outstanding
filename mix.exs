@@ -10,13 +10,29 @@ defmodule AshOutstanding.MixProject do
     [
       app: @name,
       version: @version,
+      name: @name,
+      description: @description,
       elixir: "~> 1.18",
-      start_permanent: Mix.env() == :prod,
       consolidate_protocols: Mix.env() != :test,
-      package: package(),
+      start_permanent: Mix.env() == :prod,
+      # ex_doc
+      source_url: @github_url,
+      homepage_url: "https://diffo.dev/diffo/outstanding",
+      docs: [main: "readme", extras: ["README.md"]],
+      # hex.pm stuff
       deps: deps(),
       docs: &docs/0,
       aliases: aliases(),
+      package: [
+        name: "ash_outstanding",
+        licenses: ["MIT"],
+        files: ["lib", "mix.exs", "README*", "VERSION*"],
+        maintainers: ["Matt Beanland"],
+        links: %{
+          "GitHub" => @github_url,
+          "Author's home page" => "https://www.diffo.dev"
+        }
+      ]
     ]
   end
 
@@ -24,20 +40,10 @@ defmodule AshOutstanding.MixProject do
     [extra_applications: [:logger]]
   end
 
-  defp package() do
-    [
-      maintainers: ["Matt Beanland"],
-      description: @description,
-      licenses: ["MIT"],
-      links: %{Github: @github_url},
-      files: ~w(mix.exs lib .formatter.exs LICENSE.md  README.md),
-    ]
-  end
-
   defp deps() do
     [
-      {:outstanding, git: "https://github.com/diffo-dev/outstanding/", branch: "4-structs-shouldnt-implement-outstanding-by-default"},
-      {:ash, "~> 3.0"},
+      {:outstanding, "~> 0.1.0"},
+      {:ash, "~> 3.5"},
       {:spark, ">= 2.1.21 and < 3.0.0"},
       {:igniter, "~> 0.5", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.37", only: :dev, runtime: false},

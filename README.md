@@ -131,8 +131,8 @@ end
 
 Thanks to [Dmitry Maganov](https://github.com/vonagam) for [ash_jason](https://github.com/vonagam/ash_jason) which was an exemplar.
 
-Kudos to the [Ash Core](https://github.com/ash-project) for [ash] https://github.com/ash-project/ash 🚀
+Kudos to the [Ash Core](https://github.com/ash-project) for [ash](https://github.com/ash-project/ash) 🚀
 
 ## Links
-[Diffo.dev] (https://www.diffo.dev))
-[`Outstanding` docs](https://hexdocs.pm/outstanding).
+[Diffo.dev](https://www.diffo.dev))
+[`Outstanding` docs](https://hexdocs.pm/outstanding/).
