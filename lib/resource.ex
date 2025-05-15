@@ -18,9 +18,9 @@ defmodule AshOutstanding.Resource do
         """,
         type: {:fun, [:any, :any, :any], :any},
         as: :input,
-        required: true,
-      ],
-    ],
+        required: true
+      ]
+    ]
   }
 
   @outstanding %Spark.Dsl.Section{
@@ -33,13 +33,12 @@ defmodule AshOutstanding.Resource do
         doc: """
           Keys to expect in outstanding calculation. Accepts a single key or list of keys, where keys are atoms.
         """,
-        type:
-         {:or, [:atom, {:list, :atom}]},
-      ],
+        type: {:or, [:atom, {:list, :atom}]}
+      ]
     ],
     entities: [
-      @customize,
-    ],
+      @customize
+    ]
   }
 
   use Spark.Dsl.Extension,

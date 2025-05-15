@@ -18,14 +18,17 @@ defmodule AshOutstanding.Transformer do
           defimpl Outstanding do
             def outstanding(expected, actual) do
               expected_map = Map.take(expected, unquote(make_expect(dsl)))
+
               outstanding =
                 case {expected, actual} do
                   {%name{}, nil} ->
                     expected_map |> Outstand.map_to_struct(name)
+
                   {%name{}, _} ->
                     Outstanding.outstanding(expected_map, Map.from_struct(actual))
                     |> Outstand.map_to_struct(name)
                 end
+
               unquote_splicing(make_steps(dsl))
             end
 
@@ -43,6 +46,7 @@ defmodule AshOutstanding.Transformer do
     case Spark.Dsl.Transformer.get_option(dsl, [:outstanding], :expect, %{}) do
       keys when is_list(keys) ->
         keys
+
       key when is_atom(key) ->
         [key]
     end

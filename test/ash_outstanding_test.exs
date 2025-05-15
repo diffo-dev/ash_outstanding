@@ -14,12 +14,13 @@ defmodule AshOutstanding.Test.Macros do
           attribute :name, :string, public?: true
           attribute :major_version, :integer, public?: true
           attribute :version, :string, public?: true
+
           attribute :category, :union do
             constraints types: [
-              string: [type: :string],
-              atom: [type: :atom],
-              function: [type: :function]
-            ]
+                          string: [type: :string],
+                          atom: [type: :atom],
+                          function: [type: :function]
+                        ]
           end
         end
 
@@ -42,7 +43,7 @@ defmodule AshOutstanding.Test do
   describe "expect" do
     defresource ExpectOnly do
       outstanding do
-        expect [:name]
+        expect([:name])
       end
     end
 
@@ -61,11 +62,13 @@ defmodule AshOutstanding.Test do
   describe "customize" do
     defresource WithCustomize do
       outstanding do
-        expect [:name, :major_version, :version]
+        expect([:name, :major_version, :version])
+
         customize fn outstanding, expected, _actual ->
           case outstanding do
             nil ->
               outstanding
+
             %_{} ->
               outstanding
               |> Map.put(:id, expected.id)
@@ -113,7 +116,7 @@ defmodule AshOutstanding.Test do
 
     defresource WithExpectCategory do
       outstanding do
-        expect [:name, :category]
+        expect([:name, :category])
       end
     end
 
@@ -138,7 +141,10 @@ defmodule AshOutstanding.Test do
       assert outstanding?(expected, nil)
       assert expected >>> actual_outstanding
       assert outstanding(expected, nil) == expected
-      assert expected --- actual_outstanding == %WithExpectCategory{category: %Ash.Union{type: :atom, value: :any_bitstring}}
+
+      assert expected --- actual_outstanding == %WithExpectCategory{
+               category: %Ash.Union{type: :atom, value: :any_bitstring}
+             }
     end
   end
 end
