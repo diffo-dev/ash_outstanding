@@ -127,6 +127,16 @@ defmodule Specification.Resource do
 end
 ```
 
+## Using Outstanding in Ash Expressions
+Ash Expressions can call outstanding(expected, actual) and is_outstanding(expected, actual) via custom expressions. This is particularly useful when combined with relationships, as a supervising resource can manage its expectations of a supervised resource.
+
+AshOutstanding includes the Outstanding and IsOutstanding custom expressions for the Ash.DataLayer.Simple and Ash.DataLayer.ETS.
+
+These must be configured in your config.exs:
+```elixir
+config :ash, :custom_expressions, [AshOutstanding.Expressions.Outstanding, AshOutstanding.Expressions.IsOutstanding]
+```
+
 ## Acknowledgements
 
 Thanks to [Dmitry Maganov](https://github.com/vonagam) for [ash_jason](https://github.com/vonagam/ash_jason) which was an exemplar.

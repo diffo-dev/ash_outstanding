@@ -5,7 +5,6 @@ defmodule AshOutstanding.Union.Test do
   import AshOutstanding.Union
 
   describe "union" do
-
     test "Ash.Union implements Outstanding" do
       expected = %Ash.Union{type: :string, value: "connectivity"}
       assert Outstanding.impl_for(expected) == Outstanding.Ash.Union
