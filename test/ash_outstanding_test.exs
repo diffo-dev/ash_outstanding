@@ -14,6 +14,13 @@ defmodule AshOutstanding.Test.Macros do
           attribute :name, :string, public?: true
           attribute :major_version, :integer, public?: true
           attribute :version, :string, public?: true
+          attribute :category, :union do
+            constraints types: [
+              string: [type: :string],
+              atom: [type: :atom],
+              function: [type: :function]
+            ]
+          end
         end
 
         unquote(block)
@@ -98,6 +105,40 @@ defmodule AshOutstanding.Test do
       assert expected >>> actual_outstanding
       assert outstanding(expected, actual_outstanding) == %WithCustomize{id: @expected_id, version: ~r/v1.1/}
       assert expected --- actual_outstanding == %WithCustomize{id: @expected_id, version: ~r/v1.1/}
+    end
+  end
+
+  describe "union" do
+    import AshOutstanding.Union
+
+    defresource WithExpectCategory do
+      outstanding do
+        expect [:name, :category]
+      end
+    end
+
+    test "expected category is string" do
+      expected = %WithExpectCategory{name: nil, category: %Ash.Union{type: :string, value: "connectivity"}}
+      actual_realizing = %WithExpectCategory{name: "access", category: %Ash.Union{type: :string, value: "connectivity"}}
+      actual_outstanding = %WithExpectCategory{category: %Ash.Union{type: :string, value: "value added"}}
+      outstanding = outstanding(expected, actual_realizing)
+      assert outstanding == nil
+      assert outstanding?(expected, nil)
+      assert expected >>> actual_outstanding
+      assert outstanding(expected, nil) == expected
+      assert expected --- actual_outstanding == expected
+    end
+
+    test "expected category is function" do
+      expected = %WithExpectCategory{name: nil, category: %Ash.Union{type: :function, value: &Outstand.any_bitstring/1}}
+      actual_realizing = %WithExpectCategory{name: "access", category: %Ash.Union{type: :string, value: "connectivity"}}
+      actual_outstanding = %WithExpectCategory{category: %Ash.Union{type: :string, value: nil}}
+      outstanding = outstanding(expected, actual_realizing)
+      assert outstanding == nil
+      assert outstanding?(expected, nil)
+      assert expected >>> actual_outstanding
+      assert outstanding(expected, nil) == expected
+      assert expected --- actual_outstanding == %WithExpectCategory{category: %Ash.Union{type: :atom, value: :any_bitstring}}
     end
   end
 end
