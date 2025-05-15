@@ -32,7 +32,7 @@ end
 defmodule AshOutstanding.Test do
   use ExUnit.Case
   import Outstand
-  import Outstanding, only: [outstanding: 2]
+  import Outstanding
 
   import AshOutstanding.Test.Macros
 

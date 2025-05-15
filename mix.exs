@@ -42,11 +42,11 @@ defmodule AshOutstanding.MixProject do
 
   defp deps() do
     [
-      {:outstanding, "~> 0.1.0"},
+      {:outstanding, "~> 0.2.0"},
       {:ash, "~> 3.5"},
       {:spark, ">= 2.1.21 and < 3.0.0"},
       {:igniter, "~> 0.5", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.37", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.38", only: :dev, runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:sourceror, "~> 1.7", only: [:dev, :test], runtime: false},
       {:freedom_formatter, "~> 2.1", only: [:dev, :test], runtime: false},

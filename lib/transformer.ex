@@ -28,6 +28,10 @@ defmodule AshOutstanding.Transformer do
                 end
               unquote_splicing(make_steps(dsl))
             end
+
+            def outstanding?(expected, actual) do
+              Outstanding.outstanding(expected, actual) != nil
+            end
           end
         end
       )
