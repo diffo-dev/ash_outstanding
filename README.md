@@ -19,10 +19,15 @@ Add to the deps:
 ```elixir
 def deps do
   [
-    {:ash_outstanding, "~> 0.1.0"},
+    {:ash_outstanding, "~> 0.2.0"},
   ]
 end
 ```
+## Tutorial
+
+To get started you need a running instance of [Livebook](https://livebook.dev/)
+
+[![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fdiffo%2Ddev%2Fash%5Foutstanding%2Fblob%2Fdev%2Fash%5Foutstanding.livemd)
 
 ## Usage
 
