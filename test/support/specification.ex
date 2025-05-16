@@ -12,11 +12,6 @@ defmodule Specification do
     defaults [:read, :destroy, create: :*, update: :*]
   end
 
-  code_interface do
-    define :create, action: :create
-    define :read, action: :read
-  end
-
   attributes do
     uuid_primary_key :id, writable?: true
     attribute :href, :string, public?: true
@@ -36,21 +31,6 @@ defmodule Specification do
   calculations do
     calculate :is_outstanding_major_version, :boolean, expr(is_outstanding(2, major_version))
     calculate :outstanding_major_version, :term, expr(outstanding(2, major_version))
-  end
-end
-
-defmodule Domain do
-  @moduledoc false
-  use Ash.Domain,
-    validate_config_inclusion?: false
-
-  resources do
-    resource Specification do
-      define :create_specification, action: :create
-      define :update_specification, action: :update
-      define :read_specification, action: :read
-      define :destroy_specification, action: :destroy
-    end
   end
 end
 
