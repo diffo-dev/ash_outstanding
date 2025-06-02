@@ -1,0 +1,69 @@
+# Ash Outstanding Extension
+
+```elixir
+Mix.install([{:ash_outstanding, "~> 0.2.1"}], consolidate_protocols: false)
+```
+
+## Overview
+
+If already familiar with the [Elixir Outstanding Protocol](http://github.com/diffo-dev/outstanding) and [Ash Framework](https://ash-hq.org) in this livebook tutorial you will learn
+
+* Brief Recap of Outstanding Protocol
+* Why have an Ash Outstanding Extension?
+* How to declare Outstanding on your Ash Resources
+* How to use Outstanding with Ash Resources
+* How to use Outstanding in Ash Expressions
+
+## Brief Recap of Outstanding
+
+Outstanding is a protocol for checking whether our expectations have been met or exceeded, and/or seeing which expectations are still outstanding. It compares expected and actual, where these can be of any type.
+
+Outstanding protocol defines two functions:
+
+* outstanding?(expected, actual), returning a boolean which is true if anything is outstanding, otherwise false
+* outstanding(expected, actual), returning what is outstanding, otherwise nil
+
+## Why have an Ash Outstanding Extension?
+
+Outstanding is about expectations and actuality and is intentionally not implemented on structs (although it can be done easily).
+As Ash is used to model your domain declaratively, we want to declare what Outstanding should be concerned about, without having to deal with the details of how.
+The Ash Outstanding extension allows you to declare which attributes outstanding should be calculated on
+
+## How to declare Outstanding on your Ash Resources
+
+We'll declare an Ash Resource representing a Service. We'll use an instance for expected, and another for actual. 
+Initially the service will have an id, name, state and status, however we are only concerned with implementing outstanding on state and status.
+
+Using the [README](https://github.com/diffo-dev/outstanding/blob/dev/README.md) configure outstanding on the resource below so that it expects state and status.
+
+```elixir
+defmodule Service do
+  use Ash.Resource,
+    domain: nil,
+    data_layer: Ash.DataLayer.Ets,
+    extensions: [AshOutstanding.Resource]
+
+  outstanding do
+    expect [:state, :status]
+  end
+
+  actions do
+    defaults [:read, :update, :destroy, create: :*]
+  end
+
+  attributes do
+    uuid_primary_key :id, writable?: true
+    attribute :name, :string, public?: true
+    attribute :state, :atom, public?: true
+    attribute :status, :atom, public?: true
+  end
+end
+```
+
+```elixir
+Code.ensure_loaded?(Service)
+```
+
+```elixir
+expected = 
+```
