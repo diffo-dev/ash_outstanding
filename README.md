@@ -19,11 +19,10 @@ Add to the deps:
 ```elixir
 def deps do
   [
-    {:ash_outstanding, "~> 0.1.0"},
+    {:ash_outstanding, "~> 0.2.0"},
   ]
 end
 ```
-
 ## Usage
 
 Add `AshOutstanding.Resource` to `extensions` list within `use Ash.Resource` options:
@@ -145,4 +144,5 @@ Kudos to the [Ash Core](https://github.com/ash-project) for [ash](https://github
 
 ## Links
 [Diffo.dev](https://www.diffo.dev))
-[`Outstanding` docs](https://hexdocs.pm/outstanding/).
+[`Outstanding` protocol docs](https://hexdocs.pm/outstanding/)
+[`Outstanding` protocol livebook] (https://livebook.dev/run/?url=https%3A%2F%2Fgithub.com%2Fdiffo-dev%2Foutstanding%2Fblob%2Fdev%2Foutstanding.livemd)
