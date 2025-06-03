@@ -23,6 +23,12 @@ def deps do
   ]
 end
 ```
+## Tutorial
+
+To get started you need a running instance of [Livebook](https://livebook.dev/)
+
+[![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fdiffo%2Ddev%2Fash%5Foutstanding%2Fblob%2Fdev%2Fash%5Foutstanding.livemd)
+
 ## Usage
 
 Add `AshOutstanding.Resource` to `extensions` list within `use Ash.Resource` options:
@@ -143,6 +149,6 @@ Thanks to [Dmitry Maganov](https://github.com/vonagam) for [ash_jason](https://g
 Kudos to the [Ash Core](https://github.com/ash-project) for [ash](https://github.com/ash-project/ash) 🚀
 
 ## Links
-[Diffo.dev](https://www.diffo.dev))
+[Diffo.dev](https://www.diffo.dev)
 [`Outstanding` protocol docs](https://hexdocs.pm/outstanding/)
 [`Outstanding` protocol livebook] (https://livebook.dev/run/?url=https%3A%2F%2Fgithub.com%2Fdiffo-dev%2Foutstanding%2Fblob%2Fdev%2Foutstanding.livemd)
