@@ -15,11 +15,10 @@ defmodule ParentChildTest do
       assert outstanding.state == nil
       assert outstanding.status == nil
       refute outstanding.children == nil
-      outstanding_child = hd(outstanding.children) |> IO.inspect(label: :outstanding_child)
-      # improve when https://github.com/diffo-dev/outstanding/issues/18 enhancement is available
+      outstanding_child = hd(outstanding.children)
       assert outstanding_child.state == :active
       assert outstanding_child.status == :working
-      #assert outstanding_child  == %Service{state: :active, status: :working}
+      assert outstanding_child  == %Service{state: :active, status: :working}
     end
 
     test "parent child expectations - outstanding, child status" do
@@ -36,10 +35,9 @@ defmodule ParentChildTest do
       outstanding = Outstanding.outstanding(expected, actual)
       refute outstanding.children == nil
       outstanding_child = hd(outstanding.children)
-      # improve when https://github.com/diffo-dev/outstanding/issues/18 enhancement is available
-      # assert outstanding_child.state == nil
+      assert outstanding_child.state == nil
       assert outstanding_child.status == :working
-      #assert outstanding_child  == %Service{status: :working}
+      assert outstanding_child  == %Service{status: :working}
     end
 
     test "parent child expecations - resolved" do
