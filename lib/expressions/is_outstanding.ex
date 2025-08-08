@@ -8,7 +8,9 @@ defmodule AshOutstanding.Expressions.IsOutstanding do
   def expression(data_layer, [expected, actual])
       when data_layer in [
              Ash.DataLayer.Ets,
-             Ash.DataLayer.Simple
+             Ash.DataLayer.Simple,
+             AshNeo4j.DataLayer,
+             AshCsv.DataLayer
            ] do
     {:ok, expr(fragment(&__MODULE__.is_outstanding/2, ^expected, ^actual))}
   end

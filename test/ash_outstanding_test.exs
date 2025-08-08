@@ -54,8 +54,19 @@ defmodule AshOutstanding.Test do
       refute outstanding?(expected, actual_realizing)
       assert outstanding?(expected, nil)
       assert expected >>> actual_outstanding
-      assert outstanding(expected, nil) == expected
-      assert expected --- actual_outstanding == expected
+      assert outstanding(expected, nil) == Ash.Test.strip_metadata(expected)
+      assert expected --- actual_outstanding == Ash.Test.strip_metadata(expected)
+    end
+
+    test "name where actual lacks __meta__" do
+      expected = Kernel.struct(ExpectOnly, name: "access")
+      actual_realizing = %ExpectOnly{name: "access"} |> Map.put(:__meta__, nil)
+      actual_outstanding = %ExpectOnly{name: "transport"} |> Map.put(:__meta__, nil)
+      refute outstanding?(expected, actual_realizing)
+      assert outstanding?(expected, nil)
+      assert expected >>> actual_outstanding
+      assert outstanding(expected, nil) == Ash.Test.strip_metadata(expected)
+      assert expected --- actual_outstanding == Ash.Test.strip_metadata(expected)
     end
   end
 
@@ -84,8 +95,8 @@ defmodule AshOutstanding.Test do
       refute outstanding?(expected, actual_realizing)
       assert outstanding?(expected, nil)
       assert expected >>> actual_outstanding
-      assert outstanding(expected, nil) == expected
-      assert expected --- actual_outstanding == expected
+      assert outstanding(expected, nil) == Ash.Test.strip_metadata(expected)
+      assert expected --- actual_outstanding == Ash.Test.strip_metadata(expected)
     end
 
     test "name and major version" do
@@ -95,8 +106,8 @@ defmodule AshOutstanding.Test do
       refute outstanding?(expected, actual_realizing)
       assert outstanding(expected, nil)
       assert expected >>> actual_outstanding
-      assert outstanding(expected, actual_outstanding) == expected
-      assert expected --- actual_outstanding == expected
+      assert outstanding(expected, actual_outstanding) == Ash.Test.strip_metadata(expected)
+      assert expected --- actual_outstanding == Ash.Test.strip_metadata(expected)
     end
 
     test "name and version regex" do
@@ -107,8 +118,12 @@ defmodule AshOutstanding.Test do
       refute outstanding?(expected, actual_realizing)
       assert outstanding?(expected, nil)
       assert expected >>> actual_outstanding
-      assert outstanding(expected, actual_outstanding) == %WithCustomize{id: @expected_id, version: version_regex}
-      assert expected --- actual_outstanding == %WithCustomize{id: @expected_id, version: version_regex}
+
+      assert outstanding(expected, actual_outstanding) ==
+               Ash.Test.strip_metadata(%WithCustomize{id: @expected_id, version: version_regex})
+
+      assert expected --- actual_outstanding ==
+               Ash.Test.strip_metadata(%WithCustomize{id: @expected_id, version: version_regex})
     end
   end
 
@@ -129,8 +144,8 @@ defmodule AshOutstanding.Test do
       assert outstanding == nil
       assert outstanding?(expected, nil)
       assert expected >>> actual_outstanding
-      assert outstanding(expected, nil) == expected
-      assert expected --- actual_outstanding == expected
+      assert outstanding(expected, nil) == Ash.Test.strip_metadata(expected)
+      assert expected --- actual_outstanding == Ash.Test.strip_metadata(expected)
     end
 
     test "expected category is function" do
@@ -141,11 +156,12 @@ defmodule AshOutstanding.Test do
       assert outstanding == nil
       assert outstanding?(expected, nil)
       assert expected >>> actual_outstanding
-      assert outstanding(expected, nil) == expected
+      assert outstanding(expected, nil) == Ash.Test.strip_metadata(expected)
 
-      assert expected --- actual_outstanding == %WithExpectCategory{
-               category: %Ash.Union{type: :atom, value: :any_bitstring}
-             }
+      assert expected --- actual_outstanding ==
+               Ash.Test.strip_metadata(%WithExpectCategory{
+                 category: %Ash.Union{type: :atom, value: :any_bitstring}
+               })
     end
   end
 end
