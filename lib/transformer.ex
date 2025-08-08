@@ -22,11 +22,12 @@ defmodule AshOutstanding.Transformer do
               outstanding =
                 case {expected, actual} do
                   {%name{}, nil} ->
-                    expected_map |> Outstand.map_to_struct(name)
+                    expected_map |> Outstand.map_to_struct(name) |> Ash.Test.strip_metadata()
 
                   {%name{}, _} ->
                     Outstanding.outstanding(expected_map, Map.from_struct(actual))
                     |> Outstand.map_to_struct(name)
+                    |> Ash.Test.strip_metadata()
                 end
 
               unquote_splicing(make_steps(dsl))

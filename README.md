@@ -19,7 +19,7 @@ Add to the deps:
 ```elixir
 def deps do
   [
-    {:ash_outstanding, "~> 0.2.0"},
+    {:ash_outstanding, "~> 0.2.1"},
   ]
 end
 ```
@@ -27,7 +27,7 @@ end
 
 To get started you need a running instance of [Livebook](https://livebook.dev/)
 
-[![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fdiffo%2Ddev%2Fash%5Foutstanding%2Fblob%2Fdev%2Fash%5Foutstanding.livemd)
+[![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fdiffo%2Ddev%2Fash%5Foutstanding%2Fblob%2Fdev%2Fash%5Foutstanding%5Fextension.livemd)
 
 ## Usage
 
@@ -106,6 +106,8 @@ Outstanding supports expected functions. Arity 1 and 2 expected functions use ac
 
 You may need to ensure your expected/actual Ash Resources are appropriately loaded, depending on what key/values you expect.
 
+The __meta__ field is nil expectation.
+
 ## Customize
 
 A dsl option is provided which will insert a custom arity 3 function into the outstanding pipeline.
@@ -135,9 +137,9 @@ end
 ## Using Outstanding in Ash Expressions
 Ash Expressions can call outstanding(expected, actual) and is_outstanding(expected, actual) via custom expressions. This is particularly useful when combined with relationships, as a supervising resource can manage its expectations of a supervised resource.
 
-AshOutstanding includes the Outstanding and IsOutstanding custom expressions for the Ash.DataLayer.Simple and Ash.DataLayer.ETS.
+AshOutstanding includes the Outstanding and IsOutstanding custom expressions for the Ash.DataLayer.Simple, Ash.DataLayer.ETS, [AshCsv.DataLayer](https://github.com/ash-project/ash_csv) and [AshNeo4j.DataLayer](https://github.com/diffo-dev/ash_neo4j)
 
-These must be configured in your config.exs:
+To make these available add to your config.exs:
 ```elixir
 config :ash, :custom_expressions, [AshOutstanding.Expressions.Outstanding, AshOutstanding.Expressions.IsOutstanding]
 ```

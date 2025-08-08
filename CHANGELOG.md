@@ -16,3 +16,13 @@ See [Conventional Commits](Https://conventionalcommits.org) for commit guideline
 * outstanding 0.2
 * expressions
 * outstanding implementation for Ash.Union :type_and_value
+
+## [v0.2.1](https://github.com/diffo-dev/ash_outstanding/compare/v0.2.0...v0.2.1) (2025-08-08)
+
+### Features:
+* __meta__ value is suppressed in outstanding
+* custom expressions with AshCsv and AshNeo4j DataLayers
+
+### Fixes
+* fixed regex test failing with Elixir 1.18.4
+

@@ -2,7 +2,7 @@
 
 ```elixir
 Mix.install(
-  [{:ash_outstanding, "~> 0.2.0"}],
+  [{:ash_outstanding, "~> 0.2.1"}],
   consolidate_protocols: false,
   config: [
     ash: [custom_expressions: [AshOutstanding.Expressions.Outstanding, AshOutstanding.Expressions.IsOutstanding]]
