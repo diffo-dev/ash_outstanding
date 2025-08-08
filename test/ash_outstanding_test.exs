@@ -100,14 +100,15 @@ defmodule AshOutstanding.Test do
     end
 
     test "name and version regex" do
-      expected = %WithCustomize{id: @expected_id, name: "access", version: ~r/v1.1/}
+      version_regex = ~r/v1.1/
+      expected = %WithCustomize{id: @expected_id, name: "access", version: version_regex}
       actual_realizing = %WithCustomize{id: @actual_id, name: "access", version: "v1.1.17"}
       actual_outstanding = %WithCustomize{id: @actual_id, name: "access", version: "v1.2.0"}
       refute outstanding?(expected, actual_realizing)
       assert outstanding?(expected, nil)
       assert expected >>> actual_outstanding
-      assert outstanding(expected, actual_outstanding) == %WithCustomize{id: @expected_id, version: ~r/v1.1/}
-      assert expected --- actual_outstanding == %WithCustomize{id: @expected_id, version: ~r/v1.1/}
+      assert outstanding(expected, actual_outstanding) == %WithCustomize{id: @expected_id, version: version_regex}
+      assert expected --- actual_outstanding == %WithCustomize{id: @expected_id, version: version_regex}
     end
   end
 
