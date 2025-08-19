@@ -23,6 +23,36 @@ defmodule AshOutstanding.Resource do
     ]
   }
 
+  @expect_map {:map,
+              [
+                private?: [
+                  doc: """
+                    Whenever to pick private fields.
+                  """,
+                  type: :boolean,
+                  default: false,
+                ],
+                sensitive?: [
+                  doc: """
+                    Whenever to pick sensitive fields.
+                  """,
+                  type: :boolean,
+                  default: false,
+                ],
+                include: [
+                  doc: """
+                    Keys to pick. In addition to fields.
+                  """,
+                  type: {:list, :atom},
+                ],
+                exclude: [
+                  doc: """
+                    Keys not to pick.
+                  """,
+                  type: {:list, :atom},
+                ],
+              ]}
+
   @outstanding %Spark.Dsl.Section{
     name: :outstanding,
     describe: """
@@ -31,9 +61,9 @@ defmodule AshOutstanding.Resource do
     schema: [
       expect: [
         doc: """
-          Keys to expect in outstanding calculation. Accepts a single key or list of keys, where keys are atoms.
+          Keys to expect in outstanding calculation. Accepts a single key or list of keys, where keys are atoms, or a behaviour configuration map.
         """,
-        type: {:or, [:atom, {:list, :atom}]}
+        type: {:or, [:atom, {:list, :atom}, @expect_map]}
       ]
     ],
     entities: [

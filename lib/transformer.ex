@@ -50,6 +50,16 @@ defmodule AshOutstanding.Transformer do
 
       key when is_atom(key) ->
         [key]
+
+      options when is_map(options) ->
+        fields = Ash.Resource.Info.fields(dsl)
+        fields = if Map.get(options, :private?), do: fields, else: Enum.filter(fields, & &1.public?)
+        fields = if Map.get(options, :sensitive?), do: fields, else: Enum.reject(fields, &Map.get(&1, :sensitive?))
+        keys = Enum.map(fields, & &1.name)
+        keys = keys ++ Map.get(options, :include, [])
+        keys = Enum.uniq(keys)
+        keys = keys -- Map.get(options, :exclude, [])
+        keys
     end
   end
 

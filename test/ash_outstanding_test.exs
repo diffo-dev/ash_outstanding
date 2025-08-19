@@ -12,8 +12,10 @@ defmodule AshOutstanding.Test.Macros do
           uuid_primary_key :id, writable?: true
           attribute :href, :string, public?: true
           attribute :name, :string, public?: true
-          attribute :major_version, :integer, public?: true
+          attribute :major_version, :integer, public?: false
+          attribute :minor_version, :integer, public?: false
           attribute :version, :string, public?: true
+          attribute :password, :string, sensitive?: true
 
           attribute :category, :union do
             constraints types: [
@@ -39,6 +41,22 @@ defmodule AshOutstanding.Test do
 
   @expected_id "e3130919-6fef-4a5f-a46e-62522f0d424b"
   @actual_id "a7e8e60e-54f5-4009-b53d-c0bd2795c81c"
+
+  describe "minimal dsl" do
+    defresource Minimal do
+    end
+
+    test "name" do
+      expected = %Minimal{name: "access"}
+      actual_realizing = %Minimal{name: "access"}
+      actual_outstanding = %Minimal{name: "transport"}
+      refute outstanding?(expected, actual_realizing)
+      assert outstanding?(expected, nil)
+      assert expected >>> actual_outstanding
+      assert outstanding(expected, nil) == Ash.Test.strip_metadata(expected)
+      assert expected --- actual_outstanding == Ash.Test.strip_metadata(expected)
+    end
+  end
 
   describe "expect" do
     defresource ExpectOnly do
@@ -67,6 +85,38 @@ defmodule AshOutstanding.Test do
       assert expected >>> actual_outstanding
       assert outstanding(expected, nil) == Ash.Test.strip_metadata(expected)
       assert expected --- actual_outstanding == Ash.Test.strip_metadata(expected)
+    end
+  end
+
+  describe "expect all fields" do
+    defresource ExpectAllFields do
+      outstanding do
+        expect(%{sensitive?: true, private?: true})
+      end
+    end
+
+    test "includes private" do
+      assert outstanding?(%ExpectAllFields{major_version: 1, minor_version: 1}, %ExpectAllFields{major_version: 2, minor_version: 0})
+    end
+
+    test "includes sensitive" do
+      assert outstanding?(%ExpectAllFields{password: &Outstand.any_bitstring/1}, %ExpectAllFields{password: nil})
+    end
+  end
+
+  describe "expect include and exclude" do
+    defresource ExpectSpecific do
+      outstanding do
+        expect(%{include: [:major_version, :minor_version], exclude: [:version]})
+      end
+    end
+
+    test "includes specific" do
+      assert outstanding?(%ExpectSpecific{major_version: 1, minor_version: 0}, %ExpectSpecific{major_version: 2, minor_version: 0})
+    end
+
+    test "excludes specific" do
+      refute outstanding?(%ExpectSpecific{version: "v1.1"}, %ExpectSpecific{version: "v1.0"})
     end
   end
 
@@ -152,6 +202,7 @@ defmodule AshOutstanding.Test do
       expected = %WithExpectCategory{name: nil, category: %Ash.Union{type: :function, value: &Outstand.any_bitstring/1}}
       actual_realizing = %WithExpectCategory{name: "access", category: %Ash.Union{type: :string, value: "connectivity"}}
       actual_outstanding = %WithExpectCategory{category: %Ash.Union{type: :string, value: nil}}
+
       outstanding = outstanding(expected, actual_realizing)
       assert outstanding == nil
       assert outstanding?(expected, nil)
