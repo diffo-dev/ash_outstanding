@@ -42,13 +42,26 @@ end
 
 ### Configuration
 
-Generally you will want to configure your Ash Resource so that outstanding?(expected, actual) is true when the essentials of your Ash Resource are satisfied. This may align to expecting actual to sufficiently attributes which are mandatory and/or fundamental to Ash identities. These attributes are configured using the expect list.
+Generally you will want to configure your Ash Resource so that outstanding?(expected, actual) is true when the essentials of your Ash Resource are satisfied. What this really means will be specific to each resource in your domain.
 
-- expect, provide list of Ash Record fields which can have have expectations
+ By defaults this includes public fields which aren't sensitive. This includes attributes, calculations and aggregates.
+
+```elixir
+defmodule Specification.Resource do
+  use Ash.Resource,
+    extensions: [AshOutstanding.Resource]
+
+end
+```
+
+You have more control using the expect keyword.
+
+- expect, provide list of Ash Record fields which can have have expectations, or a behaviour configuration map.
 
 Here is an example `outstanding` dsl section, which configures a Specification resource so that we can set expectations on any or all of the values of keys :name, :major_version and :version while ignoring other fields in the expected/actual resource.
 When nil_outstanding?(expected, actual) is true, outstanding(expected, actual) returns nil
 When nil_outstanding?(expected, actual) is false, outstanding(expected, actual) returns a struct of your Ash Record with just the unmet expectations.
+
 
 ```elixir
 defmodule Specification.Resource do
@@ -58,6 +71,26 @@ defmodule Specification.Resource do
   outstanding do
     expect [:name, :major_version, :version]
   end
+end
+```
+
+The behaviour configuration map options are:
+
+* private? - Whenever to expect private fields (defaults false)
+* sensitive? - Whenever to pick sensitive fields (defaults false)
+* include - Fields to expect. In addition to public?: true && sensitive?: false fields.
+* exclude - Fields not to expect.
+
+```elixir
+outstanding do
+  # Pick only those listed keys
+  expect [:only_some_field]
+
+  # Expect all fields including public?: false and sensitive?: true
+  expect %{private?: true, sensitive?: true}
+
+  # Expect default fields with specific includsions and exclusions
+  expect %{include: [:ok_private_field], exclude: [:irrelevant_public_field]}
 end
 ```
 
@@ -145,6 +178,8 @@ config :ash, :custom_expressions, [AshOutstanding.Expressions.Outstanding, AshOu
 ```
 
 ## Acknowledgements
+
+Thanks to [Telstra](https://www.telstra.com.au/) for supporting innovation in orchestration and inventory shared-tech which resulted in the award winning difference engine [2024 TMF Excellence Award in Autonomous Networks](https://www.tmforum.org/about/awards-and-recognition/excellence-awards/winners-2024/) powering three network service entities enabling outstanding product experience [2025 TMF Excellence Award in Customer Experience](https://www.tmforum.org/about/awards-and-recognition/excellence-awards/winners-2025/) and inspiring both this open source and internal shared-tech.
 
 Thanks to [Dmitry Maganov](https://github.com/vonagam) for [ash_jason](https://github.com/vonagam/ash_jason) which was an exemplar.
 
