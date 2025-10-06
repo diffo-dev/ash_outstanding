@@ -4,13 +4,13 @@
 [![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen)](https://hexdocs.pm/ash_outstanding/)
 [![License](https://img.shields.io/hexpm/l/ash_outstanding)](https://github.com/diffo-dev/ash_outstanding/blob/master/LICENSE.md)
 
-Ash resource extension for implementing `Outstanding` protocol, which by default is deliberately not implemented for custom structs.
+Ash Extension for implementing `Outstanding` protocol on Ash.Resource and Ash.TypedStruct.
 
-Implementing Outstanding on your Ash Resources is useful when you have an expected / actual twin, and want to establish whether/which expectations are outstanding given actual.
+Implementing Outstanding on your Ash Resources and/or TypedStructs is useful when you have an expected / actual twin, and want to establish whether/which expectations are outstanding given actual.
 
 This is a powerful concept, particularly as expectations are declarations of intent, and we want to separate the concerns of whether we've sufficiently met our expectations from how to deal with what is outstanding. Ash itself is highly declarative, creating and exploiting Spark DSL. 
 
-This extension employs Spark DSL to allow you to declare how your Ash Resource should implement Outstanding.
+This extension employs Spark DSL to allow you to declare how your Ash Resources and TypedStructs should implement Outstanding.
 
 ## Installation
 
@@ -19,7 +19,7 @@ Add to the deps:
 ```elixir
 def deps do
   [
-    {:ash_outstanding, "~> 0.2.1"},
+    {:ash_outstanding, "~> 0.2.2"},
   ]
 end
 ```
@@ -76,21 +76,21 @@ end
 
 The behaviour configuration map options are:
 
-* private? - Whenever to expect private fields (defaults false)
-* sensitive? - Whenever to pick sensitive fields (defaults false)
+* private? - Whenever to expect private fields (defaults false) - Ash.Resource only
+* sensitive? - Whenever to pick sensitive fields (defaults false) - Ash.Resource only
 * include - Fields to expect. In addition to public?: true && sensitive?: false fields.
 * exclude - Fields not to expect.
 
 ```elixir
 outstanding do
-  # Pick only those listed keys
-  expect [:only_some_field]
+  # Expect only listed fields
+  expect [:included_field_a, :included_field_b]
 
   # Expect all fields including public?: false and sensitive?: true
   expect %{private?: true, sensitive?: true}
 
-  # Expect default fields with specific includsions and exclusions
-  expect %{include: [:ok_private_field], exclude: [:irrelevant_public_field]}
+  # Expect default fields with specific inclusions and exclusions
+  expect %{include: [:included_private_field], exclude: [:excluded_public_field]}
 end
 ```
 
@@ -175,6 +175,20 @@ AshOutstanding includes the Outstanding and IsOutstanding custom expressions for
 To make these available add to your config.exs:
 ```elixir
 config :ash, :custom_expressions, [AshOutstanding.Expressions.Outstanding, AshOutstanding.Expressions.IsOutstanding]
+```
+
+## Typed Structs
+AshOutstanding includes support for [Ash.TypedStruct](https://hexdocs.pm/ash/Ash.TypedStruct.html). The DSL for TypedStruct is identical to Resource, except that 'expect' is simpler since TypedStruct fields cannot be private or sensitive.
+
+```elixir
+defmodule Specification.TypedStruct do
+  use Ash.TypedStruct,
+    extensions: [AshOutstanding.TypedStruct]
+
+  outstanding do
+    expect [:name, :major_version, :version]
+  end
+end
 ```
 
 ## Acknowledgements

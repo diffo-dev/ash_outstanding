@@ -2,8 +2,8 @@ defmodule AshOutstanding.MixProject do
   use Mix.Project
 
   @name :ash_outstanding
-  @version "0.2.1"
-  @description "Ash resource extension for implementing Outstanding protocol"
+  @version "0.2.2"
+  @description "Ash Extension for implementing Outstanding Protocol"
   @github_url "https://github.com/diffo-dev/ash_outstanding"
 
   def project() do
@@ -50,7 +50,7 @@ defmodule AshOutstanding.MixProject do
 
   defp deps() do
     [
-      {:outstanding, "~> 0.2.3"},
+      {:outstanding, "~> 0.2.4"},
       {:ash, ash_version("~> 3.5")},
       {:igniter, "~> 0.5", only: [:dev, :test]},
       {:ex_doc, "~> 0.37", only: [:dev, :test], runtime: false},
@@ -77,6 +77,10 @@ defmodule AshOutstanding.MixProject do
         "documentation/dsls/DSL-AshOutstanding.Resource.md": [
           title: "DSL: AshOutstanding.Resource",
           search_data: Spark.Docs.search_data_for(AshOutstanding.Resource)
+        ],
+        "documentation/dsls/DSL-AshOutstanding.TypedStruct.md": [
+          title: "DSL: AshOutstanding.TypedStruct",
+          search_data: Spark.Docs.search_data_for(AshOutstanding.TypedStruct)
         ]
       ]
     ]
@@ -94,8 +98,11 @@ defmodule AshOutstanding.MixProject do
   defp aliases() do
     [
       docs: ["spark.cheat_sheets", "docs", "spark.replace_doc_links"],
-      "spark.cheat_sheets": "spark.cheat_sheets --extensions AshOutstanding.Resource",
-      "spark.formatter": ["spark.formatter --extensions AshOutstanding.Resource", "format .formatter.exs"]
+      "spark.cheat_sheets": "spark.cheat_sheets --extensions AshOutstanding.Resource,AshOutstanding.TypedStruct",
+      "spark.formatter": [
+        "spark.formatter --extensions AshOutstanding.Resource,AshOutstanding.TypedStruct",
+        "format .formatter.exs"
+      ]
     ]
   end
 end
