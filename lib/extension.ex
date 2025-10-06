@@ -2,7 +2,6 @@ defmodule AshOutstanding.Extension do
   @moduledoc false
 
   def section(target) do
-
     customize_entity = %Spark.Dsl.Entity{
       name: :customize,
       describe: """
@@ -24,34 +23,34 @@ defmodule AshOutstanding.Extension do
     }
 
     expect_options =
-            [
-              private?: [
-                doc: """
-                  Whenever to pick private fields.
-                """,
-                type: :boolean,
-                default: false,
-              ],
-              sensitive?: [
-                doc: """
-                  Whenever to pick sensitive fields.
-                """,
-                type: :boolean,
-                default: false,
-              ],
-              include: [
-                doc: """
-                  Keys to pick. In addition to fields.
-                """,
-                type: {:list, :atom},
-              ],
-              exclude: [
-                doc: """
-                  Keys not to pick.
-                """,
-                type: {:list, :atom},
-              ],
-            ]
+      [
+        private?: [
+          doc: """
+            Whenever to pick private fields.
+          """,
+          type: :boolean,
+          default: false
+        ],
+        sensitive?: [
+          doc: """
+            Whenever to pick sensitive fields.
+          """,
+          type: :boolean,
+          default: false
+        ],
+        include: [
+          doc: """
+            Keys to pick. In addition to fields.
+          """,
+          type: {:list, :atom}
+        ],
+        exclude: [
+          doc: """
+            Keys not to pick.
+          """,
+          type: {:list, :atom}
+        ]
+      ]
 
     expect_options =
       if target == Ash.TypedStruct do

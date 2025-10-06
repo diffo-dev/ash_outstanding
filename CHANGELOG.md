@@ -26,3 +26,8 @@ See [Conventional Commits](Https://conventionalcommits.org) for commit guideline
 ### Fixes
 * fixed regex test failing with Elixir 1.18.4
 
+## [v0.2.2](https://github.com/diffo-dev/ash_outstanding/compare/v0.2.1...v0.2.2) (2025-10-06)
+
+### Features:
+* added typed struct support
+

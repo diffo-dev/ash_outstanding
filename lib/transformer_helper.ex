@@ -41,7 +41,7 @@ defmodule AshOutstanding.TransformerHelper do
     {:ok, dsl}
   end
 
-  defp make_expect(dsl , get_fields) do
+  defp make_expect(dsl, get_fields) do
     case Spark.Dsl.Transformer.get_option(dsl, [:outstanding], :expect, %{}) do
       keys when is_list(keys) ->
         keys

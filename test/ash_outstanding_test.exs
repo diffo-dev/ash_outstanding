@@ -117,7 +117,10 @@ defmodule AshOutstanding.Test do
     end
 
     test "includes private" do
-      assert outstanding?(%ExpectAllFields{major_version: 1, minor_version: 1}, %ExpectAllFields{major_version: 2, minor_version: 0})
+      assert outstanding?(%ExpectAllFields{major_version: 1, minor_version: 1}, %ExpectAllFields{
+               major_version: 2,
+               minor_version: 0
+             })
     end
 
     test "includes sensitive" do
@@ -133,7 +136,10 @@ defmodule AshOutstanding.Test do
     end
 
     test "includes specific" do
-      assert outstanding?(%ExpectSpecific{major_version: 1, minor_version: 0}, %ExpectSpecific{major_version: 2, minor_version: 0})
+      assert outstanding?(%ExpectSpecific{major_version: 1, minor_version: 0}, %ExpectSpecific{
+               major_version: 2,
+               minor_version: 0
+             })
     end
 
     test "excludes specific" do
@@ -262,7 +268,10 @@ defmodule AshOutstanding.Test do
     end
 
     test "includes specific" do
-      assert outstanding?(%StructExpectSpecific{major_version: 1, minor_version: 0}, %StructExpectSpecific{major_version: 2, minor_version: 0})
+      assert outstanding?(%StructExpectSpecific{major_version: 1, minor_version: 0}, %StructExpectSpecific{
+               major_version: 2,
+               minor_version: 0
+             })
     end
 
     test "excludes specific" do
