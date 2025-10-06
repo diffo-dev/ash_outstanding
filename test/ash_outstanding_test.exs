@@ -30,6 +30,27 @@ defmodule AshOutstanding.Test.Macros do
       end
     end
   end
+
+  defmacro deftypedstruct(name, block) do
+    quote do
+      defmodule unquote(name) do
+        use Ash.TypedStruct,
+          extensions: [AshOutstanding.TypedStruct]
+
+        typed_struct do
+          field :id, :uuid
+
+          field :href, :string
+          field :name, :string
+          field :major_version, :integer
+          field :minor_version, :integer
+          field :version, :string
+        end
+
+        unquote(block)
+      end
+    end
+  end
 end
 
 defmodule AshOutstanding.Test do
@@ -213,6 +234,50 @@ defmodule AshOutstanding.Test do
                Ash.Test.strip_metadata(%WithExpectCategory{
                  category: %Ash.Union{type: :atom, value: :any_bitstring}
                })
+    end
+  end
+
+  describe "typed struct extension" do
+    deftypedstruct StructWithCustomize do
+      outstanding do
+        expect([:name, :major_version, :version])
+
+        customize fn outstanding, expected, _actual ->
+          case outstanding do
+            nil ->
+              outstanding
+
+            %_{} ->
+              outstanding
+              |> Map.put(:id, expected.id)
+          end
+        end
+      end
+    end
+
+    deftypedstruct StructExpectSpecific do
+      outstanding do
+        expect(%{include: [:major_version, :minor_version], exclude: [:version]})
+      end
+    end
+
+    test "includes specific" do
+      assert outstanding?(%StructExpectSpecific{major_version: 1, minor_version: 0}, %StructExpectSpecific{major_version: 2, minor_version: 0})
+    end
+
+    test "excludes specific" do
+      refute outstanding?(%StructExpectSpecific{version: "v1.1"}, %StructExpectSpecific{version: "v1.0"})
+    end
+
+    test "customize" do
+      expected = %StructWithCustomize{id: @expected_id, name: "access", major_version: 1}
+      actual_realizing = %StructWithCustomize{id: @actual_id, name: "access", major_version: 1}
+      actual_outstanding = %StructWithCustomize{id: @actual_id, name: "transport", major_version: 2}
+      refute outstanding?(expected, actual_realizing)
+      assert outstanding(expected, nil)
+      assert expected >>> actual_outstanding
+      assert outstanding(expected, actual_outstanding) == Ash.Test.strip_metadata(expected)
+      assert expected --- actual_outstanding == Ash.Test.strip_metadata(expected)
     end
   end
 end
