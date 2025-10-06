@@ -1,15 +1,13 @@
-defmodule AshOutstanding.Transformer do
+defmodule AshOutstanding.TransformerHelper do
   @moduledoc false
-
-  use Spark.Dsl.Transformer
 
   defmodule Step do
     @moduledoc false
 
-    defstruct [:type, :input]
+    defstruct [:type, :input, __spark_metadata__: nil]
   end
 
-  def transform(dsl) do
+  def transform(dsl, get_fields) do
     dsl =
       Spark.Dsl.Transformer.eval(
         dsl,
@@ -17,7 +15,7 @@ defmodule AshOutstanding.Transformer do
         quote do
           defimpl Outstanding do
             def outstanding(expected, actual) do
-              expected_map = Map.take(expected, unquote(make_expect(dsl)))
+              expected_map = Map.take(expected, unquote(make_expect(dsl, get_fields)))
 
               outstanding =
                 case {expected, actual} do
@@ -43,7 +41,7 @@ defmodule AshOutstanding.Transformer do
     {:ok, dsl}
   end
 
-  def make_expect(dsl) do
+  defp make_expect(dsl , get_fields) do
     case Spark.Dsl.Transformer.get_option(dsl, [:outstanding], :expect, %{}) do
       keys when is_list(keys) ->
         keys
@@ -52,9 +50,7 @@ defmodule AshOutstanding.Transformer do
         [key]
 
       options when is_map(options) ->
-        fields = Ash.Resource.Info.fields(dsl)
-        fields = if Map.get(options, :private?), do: fields, else: Enum.filter(fields, & &1.public?)
-        fields = if Map.get(options, :sensitive?), do: fields, else: Enum.reject(fields, &Map.get(&1, :sensitive?))
+        fields = get_fields.(dsl, options)
         keys = Enum.map(fields, & &1.name)
         keys = keys ++ Map.get(options, :include, [])
         keys = Enum.uniq(keys)
@@ -63,14 +59,14 @@ defmodule AshOutstanding.Transformer do
     end
   end
 
-  def make_steps(dsl) do
+  defp make_steps(dsl) do
     for step <- Spark.Dsl.Transformer.get_entities(dsl, [:outstanding]),
         step_expression = make_step(step.type, step.input) do
       step_expression
     end
   end
 
-  def make_step(:customize, fun) do
+  defp make_step(:customize, fun) do
     quote bind_quoted: [fun: Macro.escape(fun)] do
       outstanding = fun.(outstanding, expected, actual)
     end
