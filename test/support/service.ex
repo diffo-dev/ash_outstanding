@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 ash_outstanding contributors <https://github.com/diffo-dev/ash_outstanding/graphs.contributors>
+#
+# SPDX-License-Identifier: MIT
+
 defmodule Service do
   use Ash.Resource,
     domain: Domain,

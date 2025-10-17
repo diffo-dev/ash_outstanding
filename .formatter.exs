@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 ash_outstanding contributors <https://github.com/diffo-dev/ash_outstanding/graphs.contributors>
+#
+# SPDX-License-Identifier: MIT
+
 spark_locals_without_parens = [
   expect: 1,
   customize: 1

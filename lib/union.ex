@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 ash_outstanding contributors <https://github.com/diffo-dev/ash_outstanding/graphs.contributors>
+#
+# SPDX-License-Identifier: MIT
+
 defmodule AshOutstanding.Union do
   @moduledoc """
   Outstanding protocol implementation for Ash.Union :type_and_value.
