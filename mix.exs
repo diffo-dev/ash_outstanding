@@ -2,7 +2,7 @@ defmodule AshOutstanding.MixProject do
   use Mix.Project
 
   @name :ash_outstanding
-  @version "0.2.2"
+  @version "0.2.3"
   @description "Ash Extension for implementing Outstanding Protocol"
   @github_url "https://github.com/diffo-dev/ash_outstanding"
 
@@ -51,7 +51,7 @@ defmodule AshOutstanding.MixProject do
   defp deps() do
     [
       {:outstanding, "~> 0.2.4"},
-      {:ash, ash_version("~> 3.5")},
+      {:ash, ash_version("~> 3.0 and >= 3.6.2")},
       {:igniter, "~> 0.5", only: [:dev, :test]},
       {:ex_doc, "~> 0.37", only: [:dev, :test], runtime: false},
       {:ex_check, "~> 0.12", only: [:dev, :test]},

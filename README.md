@@ -19,7 +19,7 @@ Add to the deps:
 ```elixir
 def deps do
   [
-    {:ash_outstanding, "~> 0.2.2"},
+    {:ash_outstanding, "~> 0.2.3"},
   ]
 end
 ```
