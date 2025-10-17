@@ -39,6 +39,9 @@ See [Conventional Commits](Https://conventionalcommits.org) for commit guideline
 
 ## [v0.2.3](https://github.com/diffo-dev/ash_outstanding/compare/v0.2.2...v0.2.3) (2025-10-13)
 
+### Features:
+* REUSE compliance
+
 ### Fixes:
 * updated ash dependency for CVE-2025-48043 fix
 
