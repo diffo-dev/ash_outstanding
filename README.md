@@ -1,8 +1,15 @@
+<-- 
+SPDX-FileCopyrightText: 2025 ash_outstanding contributors <https://github.com/diffo-dev/ash_outstanding/graphs.contributors>
+
+SPDX-License-Identifier: MIT
+-->
+
 # AshOutstanding
 
 [![Module Version](https://img.shields.io/hexpm/v/ash_outstanding)](https://hex.pm/packages/ash_outstanding)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen)](https://hexdocs.pm/ash_outstanding/)
 [![License](https://img.shields.io/hexpm/l/ash_outstanding)](https://github.com/diffo-dev/ash_outstanding/blob/master/LICENSE.md)
+[![REUSE status](https://api.reuse.software/badge/github.com/diffo-dev/ash_outstanding)](https://api.reuse.software/info/github.com/diffo-dev/ash_outstanding)
 
 Ash Extension for implementing `Outstanding` protocol on Ash.Resource and Ash.TypedStruct.
 
