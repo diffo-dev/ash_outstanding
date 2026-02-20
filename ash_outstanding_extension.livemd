@@ -1,4 +1,4 @@
-<!-- 
+<!--
 SPDX-FileCopyrightText: 2025 ash_outstanding contributors <https://github.com/diffo-dev/ash_outstanding/graphs.contributors>
 
 SPDX-License-Identifier: MIT
@@ -81,8 +81,8 @@ defmodule Service do
     attribute :which, :atom do
       public? true
       allow_nil? false
-      default :actual
-      constraints one_of: [:expected, :actual]
+      default :outstanding
+      constraints one_of: [:expected, :actual, :outstanding]
     end
     attribute :name, :string, public?: true
     attribute :state, :atom, public?: true
