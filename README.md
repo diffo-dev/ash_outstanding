@@ -27,7 +27,7 @@ Add to the deps:
 ```elixir
 def deps do
   [
-    {:ash_outstanding, "~> 0.2.3"},
+    {:ash_outstanding, "~> 0.2.4"},
   ]
 end
 ```
@@ -200,8 +200,6 @@ end
 ```
 
 ## Acknowledgements
-
-Thanks to [Telstra](https://www.telstra.com.au/) for supporting innovation in orchestration and inventory shared-tech which resulted in the award winning difference engine [2024 TMF Excellence Award in Autonomous Networks](https://www.tmforum.org/about/awards-and-recognition/excellence-awards/winners-2024/) powering three network service entities enabling outstanding product experience [2025 TMF Excellence Award in Customer Experience](https://www.tmforum.org/about/awards-and-recognition/excellence-awards/winners-2025/) and inspiring both this open source and internal shared-tech.
 
 Thanks to [Dmitry Maganov](https://github.com/vonagam) for [ash_jason](https://github.com/vonagam/ash_jason) which was an exemplar.
 

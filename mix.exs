@@ -6,7 +6,7 @@ defmodule AshOutstanding.MixProject do
   use Mix.Project
 
   @name :ash_outstanding
-  @version "0.2.3"
+  @version "0.2.4"
   @description "Ash Extension for implementing Outstanding Protocol"
   @github_url "https://github.com/diffo-dev/ash_outstanding"
 

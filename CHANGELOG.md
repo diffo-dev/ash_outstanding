@@ -1,5 +1,5 @@
 <!-- 
-SPDX-FileCopyrightText: 2025 ash_outstanding contributors <https://github.com/diffo-dev/ash_outstanding/graphs.contributors>
+SPDX-FileCopyrightText: 2025-2026 ash_outstanding contributors <https://github.com/diffo-dev/ash_outstanding/graphs.contributors>
 
 SPDX-License-Identifier: MIT
 -->
@@ -44,4 +44,11 @@ See [Conventional Commits](Https://conventionalcommits.org) for commit guideline
 
 ### Fixes:
 * updated ash dependency for CVE-2025-48043 fix
+
+## [v0.2.4](https://github.com/diffo-dev/ash_outstanding/compare/v0.2.3...v0.2.4) (2026-02-20)
+
+### Fixes
+* documentation changes for compliance
+
+
 
